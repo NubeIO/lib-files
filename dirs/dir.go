@@ -7,38 +7,45 @@ import (
 )
 
 // A Dir uses the native file system restricted to a specific directory tree.
-// Originally from ttps://github.com/golang/net/blob/master/webdav/file.go
 // An empty Dir is treated as ".".
-type Dir string
 
-func (d Dir) resolve(name string) string {
+type Dirs struct {
+	Path string
+}
+
+func New(dirs *Dirs) *Dirs {
+	return dirs
+
+}
+
+func (inst *Dirs) resolve(name string) string {
 	// This implementation is based on Dir.Open's code in the standard net/http package.
 	if filepath.Separator != '/' && strings.ContainsRune(name, filepath.Separator) ||
 		strings.Contains(name, "\x00") {
 		return ""
 	}
-	dir := string(d)
+	dir := inst.Path
 	if dir == "" {
 		dir = "."
 	}
 	return filepath.Join(dir, filepath.FromSlash(SlashClean(name)))
 }
 
-func (d Dir) String() string {
-	return string(d)
+func (inst *Dirs) String() string {
+	return inst.Path
 }
 
 // Mkdir implements os.Mkdir in this directory context.
-func (d Dir) Mkdir(name string, perm os.FileMode) error {
-	if name = d.resolve(name); name == "" {
+func (inst *Dirs) Mkdir(name string, perm os.FileMode) error {
+	if name = inst.resolve(name); name == "" {
 		return os.ErrNotExist
 	}
 	return os.MkdirAll(name, perm)
 }
 
 // OpenFile implements os.OpenFile in this directory context.
-func (d Dir) OpenFile(name string, flag int, perm os.FileMode) (*os.File, error) {
-	if name = d.resolve(name); name == "" {
+func (inst *Dirs) OpenFile(name string, flag int, perm os.FileMode) (*os.File, error) {
+	if name = inst.resolve(name); name == "" {
 		return nil, os.ErrNotExist
 	}
 	f, err := os.OpenFile(name, flag, perm)
@@ -49,12 +56,12 @@ func (d Dir) OpenFile(name string, flag int, perm os.FileMode) (*os.File, error)
 }
 
 // RemoveAll implements os.RemoveAll in this directory context.
-func (d Dir) RemoveAll(name string) error {
-	if name = d.resolve(name); name == "" {
+func (inst *Dirs) RemoveAll(name string) error {
+	if name = inst.resolve(name); name == "" {
 		return os.ErrNotExist
 	}
 
-	if name == filepath.Clean(string(d)) {
+	if name == filepath.Clean(inst.Path) {
 		// Prohibit removing the virtual root directory.
 		return os.ErrInvalid
 	}
@@ -62,14 +69,14 @@ func (d Dir) RemoveAll(name string) error {
 }
 
 // Rename implements os.Rename in this directory context.
-func (d Dir) Rename(oldName, newName string) error {
-	if oldName = d.resolve(oldName); oldName == "" {
+func (inst *Dirs) Rename(oldName, newName string) error {
+	if oldName = inst.resolve(oldName); oldName == "" {
 		return os.ErrNotExist
 	}
-	if newName = d.resolve(newName); newName == "" {
+	if newName = inst.resolve(newName); newName == "" {
 		return os.ErrNotExist
 	}
-	if root := filepath.Clean(string(d)); root == oldName || root == newName {
+	if root := filepath.Clean(inst.Path); root == oldName || root == newName {
 		// Prohibit renaming from or to the virtual root directory.
 		return os.ErrInvalid
 	}
@@ -77,42 +84,35 @@ func (d Dir) Rename(oldName, newName string) error {
 }
 
 // Stat implements os.Stat in this directory context.
-func (d Dir) Stat(name string) (os.FileInfo, error) {
-	if name = d.resolve(name); name == "" {
+func (inst *Dirs) Stat(name string) (os.FileInfo, error) {
+	if name = inst.resolve(name); name == "" {
 		return nil, os.ErrNotExist
 	}
-
 	return os.Stat(name)
 }
 
 // Copy copies a file or directory from src to dst. If it is
 // a directory, all of the files and sub-directories will be copied.
-func (d Dir) Copy(src, dst string) error {
-	if src = d.resolve(src); src == "" {
+func (inst *Dirs) Copy(src, dst string) error {
+	if src = inst.resolve(src); src == "" {
 		return os.ErrNotExist
 	}
-
-	if dst = d.resolve(dst); dst == "" {
+	if dst = inst.resolve(dst); dst == "" {
 		return os.ErrNotExist
 	}
-
-	if root := filepath.Clean(string(d)); root == src || root == dst {
+	if root := filepath.Clean(inst.Path); root == src || root == dst {
 		// Prohibit copying from or to the virtual root directory.
 		return os.ErrInvalid
 	}
-
 	if dst == src {
 		return os.ErrInvalid
 	}
-
 	info, err := os.Stat(src)
 	if err != nil {
 		return err
 	}
-
 	if info.IsDir() {
 		return CopyDir(src, dst)
 	}
-
 	return CopyFile(src, dst)
 }
