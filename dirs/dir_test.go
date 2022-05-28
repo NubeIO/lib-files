@@ -7,35 +7,27 @@ import (
 )
 
 func TestDir(t *testing.T) {
-	//tempdir, err := ioutil.TempDir("", "aidan")
-	//if err != nil {
-	//	t.Error(err)
-	//}
-	//fmt.Println(tempdir)
-	//defer os.RemoveAll(tempdir)
 
 	var err error
-
 	path := "bin"
-	//err = CopyDir("./testdata", folder)
-	//if err != nil {
-	//	t.Error(err)
-	//}
-	perm := 0700
-
+	perm := 0777
 	dirs := New(&Dirs{path})
-
-	fmt.Println(111111, dirs)
 	err = dirs.Mkdir("test/1/2/3", os.FileMode(perm))
 	if err != nil {
 		t.Error(err)
 	}
+	zipFolder := "bin/testzip.zip"
+	//zip a folder
+	perm = 0777
+	files := []string{"testdata/file.txt"}
+	err = dirs.ZipFiles(zipFolder, files)
+	if err != nil {
+		t.Error(err)
+	}
 
-	zip := fmt.Sprintf("%s/%s", "testdata", "rubix-bios-1.5.2-d5764dc0.amd64.zip")
-	fmt.Println(zip)
-	dest := fmt.Sprintf("%s/%s", dirs, "test/1/2/3")
-	extract, err := dirs.UnZip(zip, dest, os.FileMode(perm))
-
+	//unzip a folder
+	dest := fmt.Sprintf("bin/test/1/2/3")
+	extract, err := dirs.UnZip(zipFolder, dest, os.FileMode(perm))
 	fmt.Println(extract, err)
 	fmt.Println(dirs)
 	//err = testdata.RemoveAll("test")

@@ -17,32 +17,27 @@ func (inst *Dirs) UnZip(source, destination string, perm os.FileMode) ([]string,
 	if perm == 0 {
 		perm = 700
 	}
-
 	defer func() {
 		if err = r.Close(); err != nil {
 			panic(err)
 		}
 	}()
-
 	err = os.MkdirAll(destination, perm)
 	if err != nil {
 		return nil, err
 	}
-
 	var extractedFiles []string
 	for _, f := range r.File {
-		err := extractAndWriteFile(destination, f)
+		err := extractAndWriteFile(destination, f, perm)
 		if err != nil {
 			return nil, err
 		}
-
 		extractedFiles = append(extractedFiles, f.Name)
 	}
-
 	return extractedFiles, nil
 }
 
-func extractAndWriteFile(destination string, f *zip.File) error {
+func extractAndWriteFile(destination string, f *zip.File, perm os.FileMode) error {
 	rc, err := f.Open()
 	if err != nil {
 		return err
@@ -58,17 +53,17 @@ func extractAndWriteFile(destination string, f *zip.File) error {
 		return fmt.Errorf("%s: illegal file path", path)
 	}
 	if f.FileInfo().IsDir() {
-		err = os.MkdirAll(path, f.Mode())
+		err = os.MkdirAll(path, perm)
 		if err != nil {
 			return err
 		}
 	} else {
-		err = os.MkdirAll(filepath.Dir(path), f.Mode())
+		err = os.MkdirAll(filepath.Dir(path), perm)
 		if err != nil {
 			return err
 		}
 
-		f, err := os.OpenFile(path, os.O_WRONLY|os.O_CREATE|os.O_TRUNC, f.Mode())
+		f, err := os.OpenFile(path, os.O_WRONLY|os.O_CREATE|os.O_TRUNC, perm)
 		if err != nil {
 			return err
 		}

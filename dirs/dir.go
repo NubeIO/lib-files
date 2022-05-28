@@ -31,7 +31,7 @@ func (inst *Dirs) resolve(name string) string {
 	return filepath.Join(dir, filepath.FromSlash(SlashClean(name)))
 }
 
-func (inst *Dirs) String() string {
+func (inst *Dirs) GetPath() string {
 	return inst.Path
 }
 
