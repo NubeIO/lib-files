@@ -1,49 +1,21 @@
 package fileutils
 
 import (
-	"os"
 	"os/exec"
-	"path/filepath"
+	"path"
 )
 
-// ChmodR is like `chmod -R`
-func ChmodR(name string, mode os.FileMode) error {
-	return filepath.Walk(name, func(path string, info os.FileInfo, err error) error {
-		if err == nil {
-			err = os.Chmod(path, mode)
-		}
-		return err
-	})
-}
+var (
+	empty = ``
+)
 
-// ChownR is like `chown -R`
-func ChownR(path string, uid, gid int) error {
-	return filepath.Walk(path, func(name string, info os.FileInfo, err error) error {
-		if err == nil {
-			err = os.Chown(name, uid, gid)
-		}
-		return err
-	})
-}
-
-// MkdirP is `mkdir -p` / os.MkdirAll
-func MkdirP(path string, perm os.FileMode) error {
-	return os.MkdirAll(path, perm)
-}
-
-// Mv is `mv` / os.Rename
-func Mv(oldName, newName string) error {
-	return os.Rename(oldName, newName)
-}
-
-// Rm is `rm` / os.Remove
-func Rm(name string) error {
-	return os.Remove(name)
-}
-
-// RmRF is `rm -rf` / os.RemoveAll
-func RmRF(path string) error {
-	return os.RemoveAll(path)
+// SlashClean is equivalent to but slightly more efficient than
+// path.Clean("/" + name).
+func SlashClean(name string) string {
+	if name == "" || name[0] != '/' {
+		name = "/" + name
+	}
+	return path.Clean(name)
 }
 
 // Which is `which` / exec.LookPath

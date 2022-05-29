@@ -22,8 +22,7 @@ func (inst *Dirs) UnZip(source, destination string, perm os.FileMode) ([]string,
 			panic(err)
 		}
 	}()
-	err = os.MkdirAll(destination, perm)
-	if err != nil {
+	if inst.DirExistsErr(destination); err != nil {
 		return nil, err
 	}
 	var extractedFiles []string

@@ -9,10 +9,9 @@ import (
 func TestDir(t *testing.T) {
 
 	var err error
-	path := "bin"
 	perm := 0777
-	dirs := New(&Dirs{path})
-	err = dirs.Mkdir("test/1/2/3", os.FileMode(perm))
+	dirs := New(&Dirs{})
+	err = dirs.MkdirAll("test/1/2/3", os.FileMode(perm))
 	if err != nil {
 		t.Error(err)
 	}
@@ -30,6 +29,13 @@ func TestDir(t *testing.T) {
 	extract, err := dirs.UnZip(zipFolder, dest, os.FileMode(perm))
 	fmt.Println(extract, err)
 	fmt.Println(dirs)
+
+	size, err := GetFileSize("testdata/file.txt")
+	if err != nil {
+		//return
+	}
+
+	fmt.Println(size, err)
 	//err = testdata.RemoveAll("test")
 	//fmt.Println(err)
 	//if err != nil {

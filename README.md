@@ -1,0 +1,1 @@
+ref https://github.com/golang/net/blob/master/webdav/file.go

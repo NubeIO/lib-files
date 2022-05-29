@@ -7,6 +7,28 @@ import (
 	"path/filepath"
 )
 
+// Copy copies a file or directory from src to dst. If it is
+// a directory, all of the files and sub-directories will be copied.
+func (inst *Dirs) Copy(src, dst string) error {
+	if src = inst.resolve(src); src == "" {
+		return os.ErrNotExist
+	}
+	if dst = inst.resolve(dst); dst == "" {
+		return os.ErrNotExist
+	}
+	if dst == src {
+		return os.ErrInvalid
+	}
+	info, err := os.Stat(src)
+	if err != nil {
+		return err
+	}
+	if info.IsDir() {
+		return CopyDir(src, dst)
+	}
+	return CopyFile(src, dst)
+}
+
 // CopyFile copies a file from source to dest and returns
 // an error if any.
 func CopyFile(source string, dest string) error {
