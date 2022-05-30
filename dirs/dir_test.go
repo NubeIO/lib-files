@@ -9,8 +9,8 @@ import (
 func TestDir(t *testing.T) {
 
 	var err error
-	perm := 0777
-	dirs := New(&Dirs{})
+	perm := 0600
+	dirs := New()
 	err = dirs.MkdirAll("test/1/2/3", os.FileMode(perm))
 	if err != nil {
 		t.Error(err)
@@ -30,12 +30,6 @@ func TestDir(t *testing.T) {
 	fmt.Println(extract, err)
 	fmt.Println(dirs)
 
-	size, err := GetFileSize("testdata/file.txt")
-	if err != nil {
-		//return
-	}
-
-	fmt.Println(size, err)
 	//err = testdata.RemoveAll("test")
 	//fmt.Println(err)
 	//if err != nil {

@@ -11,8 +11,8 @@ import (
 
 type Dirs struct{}
 
-func New(dirs *Dirs) *Dirs {
-	return dirs
+func New() *Dirs {
+	return &Dirs{}
 }
 
 func (inst *Dirs) resolve(name string) string {

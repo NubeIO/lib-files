@@ -2,6 +2,7 @@ package fileutils
 
 import (
 	"errors"
+	"fmt"
 	"io/ioutil"
 	"os"
 	"path"
@@ -30,6 +31,18 @@ func (inst *Dirs) GetExt(filePath string) string {
 		return empty
 	}
 	return path.Ext(filePath)
+}
+
+func (inst *Dirs) ReadJSON(filename string) ([]byte, error) {
+	file, err := os.Open(filename)
+	if err != nil {
+		return nil, fmt.Errorf("open: %s", err.Error())
+	}
+	bytes, err := ioutil.ReadAll(file)
+	if err != nil {
+		return nil, fmt.Errorf("read all: %s", err.Error())
+	}
+	return bytes, nil
 }
 
 // ReadAll returns file content,will return `` if err
