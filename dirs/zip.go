@@ -81,6 +81,44 @@ func extractAndWriteFile(destination string, f *zip.File, perm os.FileMode) erro
 	return nil
 }
 
+func (inst *Dirs) RecursiveZip(pathToZip, destinationPath string) error {
+	destinationFile, err := os.Create(destinationPath)
+	if err != nil {
+		return err
+	}
+	myZip := zip.NewWriter(destinationFile)
+	err = filepath.Walk(pathToZip, func(filePath string, info os.FileInfo, err error) error {
+		if info.IsDir() {
+			return nil
+		}
+		if err != nil {
+			return err
+		}
+		relPath := strings.TrimPrefix(filePath, filepath.Dir(pathToZip))
+		zipFile, err := myZip.Create(relPath)
+		if err != nil {
+			return err
+		}
+		fsFile, err := os.Open(filePath)
+		if err != nil {
+			return err
+		}
+		_, err = io.Copy(zipFile, fsFile)
+		if err != nil {
+			return err
+		}
+		return nil
+	})
+	if err != nil {
+		return err
+	}
+	err = myZip.Close()
+	if err != nil {
+		return err
+	}
+	return nil
+}
+
 // ZipFiles compresses one or many files into a single zip archive file.
 // Param 1: filename is the output zip file's name.
 // Param 2: files is a list of files to add to the zip.
