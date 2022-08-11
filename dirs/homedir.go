@@ -19,11 +19,11 @@ var DisableCache bool
 var homedirCache string
 var cacheLock sync.RWMutex
 
-// Dir returns the home directory for the executing user.
+// HomeDir returns the home directory for the executing user.
 //
 // This uses an OS-specific method for discovering the home directory.
 // An error is returned if a home directory cannot be detected.
-func Dir() (string, error) {
+func HomeDir() (string, error) {
 	if !DisableCache {
 		cacheLock.RLock()
 		cached := homedirCache
@@ -68,7 +68,7 @@ func Expand(path string) (string, error) {
 		return "", errors.New("cannot expand user-specific home dir")
 	}
 
-	dir, err := Dir()
+	dir, err := HomeDir()
 	if err != nil {
 		return "", err
 	}

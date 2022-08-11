@@ -7,6 +7,10 @@ import (
 )
 
 func (inst *Dirs) MoveFile(sourcePath, destPath string) error {
+	err := CheckDelete(sourcePath)
+	if err != nil {
+		return err
+	}
 	inputFile, err := os.Open(sourcePath)
 	if err != nil {
 		return fmt.Errorf("couldn't open source file: %s", err)

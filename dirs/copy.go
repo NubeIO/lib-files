@@ -8,7 +8,7 @@ import (
 )
 
 // Copy copies a file or directory from src to dst. If it is
-// a directory, all of the files and sub-directories will be copied.
+// a directory, all the files and subdirectories will be copied.
 func (inst *Dirs) Copy(src, dst string) error {
 	if src = inst.resolve(src); src == "" {
 		return os.ErrNotExist
@@ -73,7 +73,7 @@ func CopyFile(source string, dest string) error {
 }
 
 // CopyDir copies a directory from source to dest and all
-// of its sub-directories. It doesn't stop if it finds an error
+// of its subdirectories. It doesn't stop if it finds an error
 // during the copy. Returns an error if any.
 func CopyDir(source string, dest string) error {
 	// Get properties of source.
