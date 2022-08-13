@@ -38,6 +38,18 @@ func CheckDelete(path string) error {
 	return nil
 }
 
+// RemoveAllFiles implements os.RemoveAll removes all files from in a dir
+func (inst *Dirs) RemoveAllFiles(name string) error {
+	err := CheckDelete(name)
+	if err != nil {
+		return err
+	}
+	if name = inst.resolve(name); name == "" {
+		return os.ErrNotExist
+	}
+	return os.RemoveAll(name)
+}
+
 // RemoveAll implements os.RemoveAll in this directory context.
 func (inst *Dirs) RemoveAll(name string, path string) error {
 	err := CheckDelete(name)
