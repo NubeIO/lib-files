@@ -3,6 +3,7 @@ package fileutils
 import (
 	"errors"
 	"fmt"
+	log "github.com/sirupsen/logrus"
 	"io/ioutil"
 	"os"
 	"path"
@@ -61,6 +62,22 @@ func (inst *Dirs) ListFiles(file string) ([]string, error) {
 		}
 	}
 	return dirContent, nil
+}
+
+// ReadFile returns file content with err
+func (inst *Dirs) ReadFile(filePath string) (content string, err error) {
+	f, err := os.Stat(filePath)
+	if err != nil {
+		return
+	}
+	if f.IsDir() {
+		return empty, errors.New("not a file")
+	}
+	body, err := ioutil.ReadFile(filePath)
+	if err != nil {
+		log.Errorf("unable to read file: %v", err)
+	}
+	return string(body), nil
 }
 
 // ReadAll returns file content,will return `` if err
