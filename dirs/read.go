@@ -45,6 +45,24 @@ func (inst *Dirs) ReadJSON(filename string) ([]byte, error) {
 	return bytes, nil
 }
 
+func (inst *Dirs) ListFiles(file string) ([]string, error) {
+	fileInfo, err := os.Stat(file)
+	if err != nil {
+		return nil, err
+	}
+	var dirContent []string
+	if fileInfo.IsDir() {
+		files, err := ioutil.ReadDir(file)
+		if err != nil {
+			return nil, err
+		}
+		for _, file := range files {
+			dirContent = append(dirContent, file.Name())
+		}
+	}
+	return dirContent, nil
+}
+
 // ReadAll returns file content,will return `` if err
 func (inst *Dirs) ReadAll(filePath string) string {
 	f, err := os.Stat(filePath)
