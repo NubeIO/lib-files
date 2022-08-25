@@ -2,16 +2,23 @@ package fileutils
 
 import (
 	"io/ioutil"
-	"log"
 	"os"
 	"path/filepath"
 )
 
-// WriteFile implements ioutil.WriteFile
-func (inst *Dirs) WriteFile(filePath string, file string, perm os.FileMode) error {
-	err := ioutil.WriteFile(filePath, []byte(file), perm)
+// WriteFileByte implements ioutil.WriteFile
+func (inst *Dirs) WriteFileByte(filePath string, body []byte, perm os.FileMode) error {
+	err := ioutil.WriteFile(filePath, body, perm)
 	if err != nil {
-		log.Println("write file error", err)
+		return err
+	}
+	return err
+}
+
+// WriteFile implements ioutil.WriteFile as body as a string
+func (inst *Dirs) WriteFile(filePath string, body string, perm os.FileMode) error {
+	err := ioutil.WriteFile(filePath, []byte(body), perm)
+	if err != nil {
 		return err
 	}
 	return err

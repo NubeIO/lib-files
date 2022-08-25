@@ -8,7 +8,7 @@ import (
 func TestDirs_ReadFile(t *testing.T) {
 
 	a := New()
-	file, err := a.ReadFile("/data/auth/user.txt")
+	file, err := a.ReadAllOk("/data/flow-framework/config/config.yml")
 	if err != nil {
 		return
 	}
