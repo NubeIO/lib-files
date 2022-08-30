@@ -7,7 +7,6 @@ import (
 )
 
 func TestDir(t *testing.T) {
-
 	var err error
 	perm := 0600
 	dirs := New()
@@ -16,7 +15,7 @@ func TestDir(t *testing.T) {
 		t.Error(err)
 	}
 	zipFolder := "bin/testzip.zip"
-	//zip a folder
+	// zip a folder
 	perm = 0777
 	files := []string{"testdata/file.txt"}
 	err = dirs.ZipFiles(zipFolder, files)
@@ -24,16 +23,15 @@ func TestDir(t *testing.T) {
 		t.Error(err)
 	}
 
-	//unzip a folder
+	// unzip a folder
 	dest := fmt.Sprintf("bin/test/1/2/3")
 	extract, err := dirs.UnZip(zipFolder, dest, os.FileMode(perm))
 	fmt.Println(extract, err)
 	fmt.Println(dirs)
 
-	//err = testdata.RemoveAll("test")
-	//fmt.Println(err)
-	//if err != nil {
+	// err = testdata.RemoveAll("test")
+	// fmt.Println(err)
+	// if err != nil {
 	//	t.Error(err)
-	//}
-
+	// }
 }

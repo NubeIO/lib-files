@@ -161,7 +161,6 @@ func (inst *Dirs) RecursiveZip(pathToZip, destinationPath string) error {
 // Param 1: filename is the output zip file's name.
 // Param 2: files is a list of files to add to the zip.
 func (inst *Dirs) ZipFiles(filename string, files []string) error {
-
 	newZipFile, err := os.Create(filename)
 	if err != nil {
 		return err
@@ -181,7 +180,6 @@ func (inst *Dirs) ZipFiles(filename string, files []string) error {
 }
 
 func (inst *Dirs) AddFileToZip(zipWriter *zip.Writer, filename string) error {
-
 	fileToZip, err := os.Open(filename)
 	if err != nil {
 		return err

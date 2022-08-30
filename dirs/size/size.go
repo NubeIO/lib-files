@@ -123,10 +123,8 @@ func Parse(s string) (ByteSize, error) {
 
 	bytesize := ByteSize(value * float64(unit))
 	return bytesize, nil
-
 }
 
-// Satisfy the flag package  Value interface.
 func (b *ByteSize) Set(s string) error {
 	bs, err := Parse(s)
 	if err != nil {
@@ -136,15 +134,12 @@ func (b *ByteSize) Set(s string) error {
 	return nil
 }
 
-// Satisfy the pflag package Value interface.
 func (b *ByteSize) Type() string { return "byte_size" }
 
-// Satisfy the encoding.TextUnmarshaler interface.
 func (b *ByteSize) UnmarshalText(text []byte) error {
 	return b.Set(string(text))
 }
 
-// Satisfy the flag package Getter interface.
 func (b *ByteSize) Get() interface{} { return ByteSize(*b) }
 
 // NewSize returns a new ByteSize type set to s.
@@ -152,7 +147,7 @@ func NewSize(s float64) ByteSize {
 	return ByteSize(s)
 }
 
-// Returns a string representation of b with the specified formatting and units.
+// Format returns a string representation of b with the specified formatting and units.
 func (b ByteSize) Format(format string, unit string, longUnits bool) string {
 	return b.format(format, unit, longUnits)
 }

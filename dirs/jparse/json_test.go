@@ -11,13 +11,10 @@ type Product struct {
 }
 
 func TestJSON(t *testing.T) {
-
 	p := &Product{}
 	j := New()
-
 	if err := j.ParseToData("/data/product.json", p); err != nil {
 		log.Println(err)
-
 	}
 	log.Println(p.Name)
 }
