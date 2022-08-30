@@ -6,7 +6,7 @@ import (
 )
 
 func TestDirs_RecursiveZip(t *testing.T) {
-	err := RecursiveZip("/data", "./test.zip")
+	err := New().RecursiveZip("/data", "./test.zip")
 	fmt.Println(err)
 	if err != nil {
 		return

@@ -5,7 +5,7 @@ import (
 )
 
 // Rename implements os.Rename in this directory context.
-func (inst *Dirs) Rename(oldName, newName string) error {
+func (inst *FileUtils) Rename(oldName, newName string) error {
 	if oldName = inst.resolve(oldName); oldName == "" {
 		return os.ErrNotExist
 	}

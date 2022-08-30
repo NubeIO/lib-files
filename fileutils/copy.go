@@ -9,7 +9,7 @@ import (
 
 // Copy copies a file or directory from src to dst. If it is
 // a directory, all the files and subdirectories will be copied.
-func (inst *Dirs) Copy(src, dst string) error {
+func (inst *FileUtils) Copy(src, dst string) error {
 	if src = inst.resolve(src); src == "" {
 		return os.ErrNotExist
 	}
