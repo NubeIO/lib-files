@@ -9,11 +9,11 @@ import (
 
 // Copy copies a file or directory from src to dst. If it is
 // a directory, all the files and subdirectories will be copied.
-func (inst *FileUtils) Copy(src, dst string) error {
-	if src = inst.resolve(src); src == "" {
+func Copy(src, dst string) error {
+	if src = resolve(src); src == "" {
 		return os.ErrNotExist
 	}
-	if dst = inst.resolve(dst); dst == "" {
+	if dst = resolve(dst); dst == "" {
 		return os.ErrNotExist
 	}
 	if dst == src {

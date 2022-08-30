@@ -16,6 +16,6 @@ func Test_checkDelete(t *testing.T) {
 	fmt.Println(err)
 	err = CheckDelete("/lib")
 
-	err = New().Rm("/")
+	err = Rm("/")
 	fmt.Println("lets test it for real ERROR", err)
 }
