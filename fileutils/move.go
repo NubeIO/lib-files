@@ -6,7 +6,7 @@ import (
 	"os"
 )
 
-func (inst *FileUtils) MoveFile(sourcePath, destPath string) error {
+func MoveFile(sourcePath, destPath string) error {
 	err := CheckDelete(sourcePath)
 	if err != nil {
 		return err

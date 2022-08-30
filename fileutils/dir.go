@@ -15,7 +15,7 @@ func New() *FileUtils {
 	return &FileUtils{}
 }
 
-func (inst *FileUtils) resolve(name string) string {
+func resolve(name string) string {
 	// This implementation is based on Dir.Open's code in the standard net/http package.
 	if filepath.Separator != '/' && strings.ContainsRune(name, filepath.Separator) ||
 		strings.Contains(name, "\x00") {
@@ -25,8 +25,8 @@ func (inst *FileUtils) resolve(name string) string {
 }
 
 // OpenFile implements os.OpenFile in this directory context.
-func (inst *FileUtils) OpenFile(name string, flag int, perm os.FileMode) (*os.File, error) {
-	if name = inst.resolve(name); name == "" {
+func OpenFile(name string, flag int, perm os.FileMode) (*os.File, error) {
+	if name = resolve(name); name == "" {
 		return nil, os.ErrNotExist
 	}
 	f, err := os.OpenFile(name, flag, perm)

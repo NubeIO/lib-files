@@ -6,8 +6,8 @@ import (
 )
 
 // Stat implements os.Stat in this directory context.
-func (inst *FileUtils) Stat(name string) (os.FileInfo, error) {
-	if name = inst.resolve(name); name == "" {
+func Stat(name string) (os.FileInfo, error) {
+	if name = resolve(name); name == "" {
 		return nil, os.ErrNotExist
 	}
 	return os.Stat(name)

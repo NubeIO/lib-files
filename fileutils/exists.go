@@ -7,7 +7,7 @@ import (
 )
 
 // FileExists returns whether a file exists
-func (inst *FileUtils) FileExists(filePath string) bool {
+func FileExists(filePath string) bool {
 	f, err := os.Stat(filePath)
 	if err != nil {
 		return false
@@ -16,7 +16,7 @@ func (inst *FileUtils) FileExists(filePath string) bool {
 }
 
 // DirExists returns whether a directory exists
-func (inst *FileUtils) DirExists(dirPath string) bool {
+func DirExists(dirPath string) bool {
 	f, err := os.Stat(dirPath)
 	if err != nil {
 		return false
@@ -25,7 +25,7 @@ func (inst *FileUtils) DirExists(dirPath string) bool {
 }
 
 // DirExistsErr returns whether a directory exists, returns an error if not exist
-func (inst *FileUtils) DirExistsErr(dirPath string) error {
+func DirExistsErr(dirPath string) error {
 	_, err := os.Stat(dirPath)
 	if err != nil {
 		err = fmt.Errorf("no dir exist name:%s \n", dirPath)

@@ -12,13 +12,13 @@ import (
 )
 
 // GetFileName returns file name
-func (inst *FileUtils) GetFileName(filePath string) string {
+func GetFileName(filePath string) string {
 	return path.Base(filePath)
 }
 
 // GetExt returns extension name
 // Will return `` when giving a string `.txt` or `.foo.zip.` etc
-func (inst *FileUtils) GetExt(filePath string) string {
+func GetExt(filePath string) string {
 	if len(filePath) == 0 {
 		return empty
 	}
@@ -34,7 +34,7 @@ func (inst *FileUtils) GetExt(filePath string) string {
 	return path.Ext(filePath)
 }
 
-func (inst *FileUtils) ReadJSON(filename string) ([]byte, error) {
+func ReadJSON(filename string) ([]byte, error) {
 	file, err := os.Open(filename)
 	if err != nil {
 		return nil, fmt.Errorf("open: %s", err.Error())
@@ -46,7 +46,7 @@ func (inst *FileUtils) ReadJSON(filename string) ([]byte, error) {
 	return bytes, nil
 }
 
-func (inst *FileUtils) ListFiles(file string) ([]string, error) {
+func ListFiles(file string) ([]string, error) {
 	fileInfo, err := os.Stat(file)
 	if err != nil {
 		return nil, err
@@ -65,7 +65,7 @@ func (inst *FileUtils) ListFiles(file string) ([]string, error) {
 }
 
 // ReadFile returns file content with err
-func (inst *FileUtils) ReadFile(filePath string) (content string, err error) {
+func ReadFile(filePath string) (content string, err error) {
 	f, err := os.Stat(filePath)
 	if err != nil {
 		return
@@ -81,7 +81,7 @@ func (inst *FileUtils) ReadFile(filePath string) (content string, err error) {
 }
 
 // ReadAll returns file content,will return `` if err
-func (inst *FileUtils) ReadAll(filePath string) string {
+func ReadAll(filePath string) string {
 	f, err := os.Stat(filePath)
 	if err != nil {
 		return empty
@@ -102,7 +102,7 @@ func (inst *FileUtils) ReadAll(filePath string) string {
 }
 
 // ReadAllOk returns file content with err
-func (inst *FileUtils) ReadAllOk(filePath string) (content string, err error) {
+func ReadAllOk(filePath string) (content string, err error) {
 	f, err := os.Stat(filePath)
 	if err != nil {
 		return

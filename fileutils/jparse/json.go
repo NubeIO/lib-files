@@ -16,8 +16,7 @@ func New() *Json {
 // ParseToData parses the JSON-encoded data and stores the result
 // in the value pointed to by "data"
 func (e *Json) ParseToData(file string, data interface{}) error {
-	f := fileutils.New()
-	value, err := f.ReadJSON(file)
+	value, err := fileutils.ReadJSON(file)
 	if err != nil {
 		return fmt.Errorf("read: %s", err.Error())
 	}
