@@ -1,4 +1,4 @@
-module github.com/NubeIO/lib-dirs
+module github.com/NubeIO/lib-files
 
 go 1.17
 

@@ -1,7 +1,7 @@
 package fileutils
 
 import (
-	"github.com/NubeIO/lib-dirs/fileutils/size"
+	"github.com/NubeIO/lib-files/fileutils/size"
 	"os"
 )
 

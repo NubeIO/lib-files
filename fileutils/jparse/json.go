@@ -3,7 +3,7 @@ package jparse
 import (
 	"encoding/json"
 	"fmt"
-	"github.com/NubeIO/lib-dirs/fileutils"
+	"github.com/NubeIO/lib-files/fileutils"
 )
 
 type Json struct {
