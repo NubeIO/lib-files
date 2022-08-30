@@ -2,7 +2,7 @@ package main
 
 import (
 	"fmt"
-	fileutils "github.com/NubeIO/lib-dirs/dirs"
+	"github.com/NubeIO/lib-dirs/fileutils"
 )
 
 func main() {

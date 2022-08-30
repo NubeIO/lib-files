@@ -7,7 +7,7 @@ import (
 )
 
 // WriteFileByte implements ioutil.WriteFile
-func (inst *Dirs) WriteFileByte(filePath string, body []byte, perm os.FileMode) error {
+func (inst *FileUtils) WriteFileByte(filePath string, body []byte, perm os.FileMode) error {
 	err := ioutil.WriteFile(filePath, body, perm)
 	if err != nil {
 		return err
@@ -16,7 +16,7 @@ func (inst *Dirs) WriteFileByte(filePath string, body []byte, perm os.FileMode) 
 }
 
 // WriteFile implements ioutil.WriteFile as body as a string
-func (inst *Dirs) WriteFile(filePath string, body string, perm os.FileMode) error {
+func (inst *FileUtils) WriteFile(filePath string, body string, perm os.FileMode) error {
 	err := ioutil.WriteFile(filePath, []byte(body), perm)
 	if err != nil {
 		return err
@@ -24,7 +24,7 @@ func (inst *Dirs) WriteFile(filePath string, body string, perm os.FileMode) erro
 	return err
 }
 
-func (inst *Dirs) CreateFile(filePath string, perm os.FileMode) (*os.File, error) {
+func (inst *FileUtils) CreateFile(filePath string, perm os.FileMode) (*os.File, error) {
 	if path, err := inst.MakeFilePath(filepath.Dir(filePath), filepath.Base(filePath), perm); err != nil {
 		return nil, err
 	} else {
@@ -33,7 +33,7 @@ func (inst *Dirs) CreateFile(filePath string, perm os.FileMode) (*os.File, error
 }
 
 // MkdirAll implements os.Mkdir in this directory context.
-func (inst *Dirs) MkdirAll(name string, perm os.FileMode) error {
+func (inst *FileUtils) MkdirAll(name string, perm os.FileMode) error {
 	if name = inst.resolve(name); name == "" {
 		return os.ErrNotExist
 	}
@@ -41,14 +41,14 @@ func (inst *Dirs) MkdirAll(name string, perm os.FileMode) error {
 }
 
 // MakeFilePath make file and path
-func (inst *Dirs) MakeFilePath(dirName, fileName string, perm os.FileMode) (string, error) {
+func (inst *FileUtils) MakeFilePath(dirName, fileName string, perm os.FileMode) (string, error) {
 	if err := inst.EnsureDir(dirName, perm); err != nil {
 		return "", err
 	}
 	return filepath.Join(dirName, fileName), nil
 }
 
-func (inst *Dirs) EnsureDir(dirName string, perm os.FileMode) error {
+func (inst *FileUtils) EnsureDir(dirName string, perm os.FileMode) error {
 	if err := os.MkdirAll(dirName, perm); err == nil || os.IsExist(err) {
 		return nil
 	} else {

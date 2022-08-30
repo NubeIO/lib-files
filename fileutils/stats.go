@@ -1,12 +1,12 @@
 package fileutils
 
 import (
-	"github.com/NubeIO/lib-dirs/dirs/size"
+	"github.com/NubeIO/lib-dirs/fileutils/size"
 	"os"
 )
 
 // Stat implements os.Stat in this directory context.
-func (inst *Dirs) Stat(name string) (os.FileInfo, error) {
+func (inst *FileUtils) Stat(name string) (os.FileInfo, error) {
 	if name = inst.resolve(name); name == "" {
 		return nil, os.ErrNotExist
 	}

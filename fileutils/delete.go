@@ -39,7 +39,7 @@ func CheckDelete(path string) error {
 }
 
 // RemoveAllFiles implements os.RemoveAll removes all files from in a dir
-func (inst *Dirs) RemoveAllFiles(name string) error {
+func (inst *FileUtils) RemoveAllFiles(name string) error {
 	err := CheckDelete(name)
 	if err != nil {
 		return err
@@ -51,7 +51,7 @@ func (inst *Dirs) RemoveAllFiles(name string) error {
 }
 
 // RemoveAll implements os.RemoveAll in this directory context.
-func (inst *Dirs) RemoveAll(name string, path string) error {
+func (inst *FileUtils) RemoveAll(name string, path string) error {
 	err := CheckDelete(name)
 	if err != nil {
 		return err
@@ -67,7 +67,7 @@ func (inst *Dirs) RemoveAll(name string, path string) error {
 }
 
 // Mv is `mv` / os.Rename
-func (inst *Dirs) Mv(oldName, newName string) error {
+func (inst *FileUtils) Mv(oldName, newName string) error {
 	err := CheckDelete(oldName)
 	if err != nil {
 		return err
@@ -76,7 +76,7 @@ func (inst *Dirs) Mv(oldName, newName string) error {
 }
 
 // Rm is `rm` / os.Remove
-func (inst *Dirs) Rm(name string) error {
+func (inst *FileUtils) Rm(name string) error {
 	err := CheckDelete(name)
 	if err != nil {
 		return err
@@ -85,7 +85,7 @@ func (inst *Dirs) Rm(name string) error {
 }
 
 // RmRF is `rm -rf` / os.RemoveAll
-func (inst *Dirs) RmRF(path string) error {
+func (inst *FileUtils) RmRF(path string) error {
 	err := CheckDelete(path)
 	if err != nil {
 		return err

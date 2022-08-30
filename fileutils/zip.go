@@ -9,7 +9,7 @@ import (
 	"strings"
 )
 
-func (inst *Dirs) UnZip(source, destination string, perm os.FileMode) ([]string, error) {
+func (inst *FileUtils) UnZip(source, destination string, perm os.FileMode) ([]string, error) {
 	r, err := zip.OpenReader(source)
 	if err != nil {
 		return nil, err
@@ -119,7 +119,7 @@ func RecursiveZip(pathToZip, destinationPath string) error {
 	return nil
 }
 
-func (inst *Dirs) RecursiveZip(pathToZip, destinationPath string) error {
+func (inst *FileUtils) RecursiveZip(pathToZip, destinationPath string) error {
 	destinationFile, err := os.Create(destinationPath)
 	if err != nil {
 		return err
@@ -160,7 +160,7 @@ func (inst *Dirs) RecursiveZip(pathToZip, destinationPath string) error {
 // ZipFiles compresses one or many files into a single zip archive file.
 // Param 1: filename is the output zip file's name.
 // Param 2: files is a list of files to add to the zip.
-func (inst *Dirs) ZipFiles(filename string, files []string) error {
+func (inst *FileUtils) ZipFiles(filename string, files []string) error {
 	newZipFile, err := os.Create(filename)
 	if err != nil {
 		return err
@@ -179,7 +179,7 @@ func (inst *Dirs) ZipFiles(filename string, files []string) error {
 	return nil
 }
 
-func (inst *Dirs) AddFileToZip(zipWriter *zip.Writer, filename string) error {
+func (inst *FileUtils) AddFileToZip(zipWriter *zip.Writer, filename string) error {
 	fileToZip, err := os.Open(filename)
 	if err != nil {
 		return err

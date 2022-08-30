@@ -6,7 +6,7 @@ import (
 )
 
 // ChmodR is like `chmod -R`
-func (inst *Dirs) ChmodR(name string, mode os.FileMode) error {
+func (inst *FileUtils) ChmodR(name string, mode os.FileMode) error {
 	return filepath.Walk(name, func(path string, info os.FileInfo, err error) error {
 		if err == nil {
 			err = os.Chmod(path, mode)
@@ -16,7 +16,7 @@ func (inst *Dirs) ChmodR(name string, mode os.FileMode) error {
 }
 
 // ChownR is like `chown -R`
-func (inst *Dirs) ChownR(path string, uid, gid int) error {
+func (inst *FileUtils) ChownR(path string, uid, gid int) error {
 	return filepath.Walk(path, func(name string, info os.FileInfo, err error) error {
 		if err == nil {
 			err = os.Chown(name, uid, gid)
