@@ -39,9 +39,14 @@ func CopyFile(source string, dest string) error {
 	}
 	defer src.Close()
 
-	// Makes the directory needed to create the dst
-	// file.
-	err = os.MkdirAll(filepath.Dir(dest), 0666)
+	srcinfo, err := os.Stat(filepath.Dir(source))
+	if err != nil {
+		return err
+	}
+
+	// Makes the directory needed to create the dst file.
+	err = os.MkdirAll(filepath.Dir(dest), srcinfo.Mode())
+	err = os.Chmod(filepath.Dir(dest), srcinfo.Mode())
 	if err != nil {
 		return err
 	}
@@ -63,6 +68,8 @@ func CopyFile(source string, dest string) error {
 	// open the file.
 	info, err := os.Stat(source)
 	if err != nil {
+		return err
+	} else {
 		err = os.Chmod(dest, info.Mode())
 		if err != nil {
 			return err

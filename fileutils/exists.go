@@ -2,7 +2,6 @@ package fileutils
 
 import (
 	"fmt"
-	log "github.com/sirupsen/logrus"
 	"os"
 )
 
@@ -28,9 +27,13 @@ func DirExists(dirPath string) bool {
 func DirExistsErr(dirPath string) error {
 	_, err := os.Stat(dirPath)
 	if err != nil {
-		err = fmt.Errorf("no dir exist name:%s \n", dirPath)
-		log.Error(err)
+		err = fmt.Errorf("no dir exist name: %s", dirPath)
 		return err
 	}
 	return nil
+}
+
+func FileOrDirExists(dirPath string) bool {
+	_, err := os.Stat(dirPath)
+	return err == nil
 }
