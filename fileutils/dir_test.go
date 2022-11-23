@@ -24,6 +24,6 @@ func TestDir(t *testing.T) {
 
 	// unzip a folder
 	dest := fmt.Sprintf("bin/test/1/2/3")
-	extract, err := UnZip(zipFolder, dest, os.FileMode(perm))
+	extract, err := Unzip(zipFolder, dest, os.FileMode(perm))
 	fmt.Println(extract, err)
 }

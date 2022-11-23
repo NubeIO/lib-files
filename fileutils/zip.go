@@ -9,7 +9,12 @@ import (
 	"strings"
 )
 
-func UnZip(source, destination string, perm os.FileMode) ([]string, error) {
+type FileDetails struct {
+	Name  string `json:"name"`
+	IsDir bool   `json:"is_file"`
+}
+
+func Unzip(source, destination string, perm os.FileMode) ([]FileDetails, error) {
 	r, err := zip.OpenReader(source)
 	if err != nil {
 		return nil, err
@@ -25,13 +30,13 @@ func UnZip(source, destination string, perm os.FileMode) ([]string, error) {
 	if DirExistsErr(destination); err != nil {
 		return nil, err
 	}
-	var extractedFiles []string
+	var extractedFiles []FileDetails
 	for _, f := range r.File {
 		err := extractAndWriteFile(destination, f, perm)
 		if err != nil {
 			return nil, err
 		}
-		extractedFiles = append(extractedFiles, f.Name)
+		extractedFiles = append(extractedFiles, FileDetails{Name: f.Name, IsDir: f.FileInfo().IsDir()})
 	}
 	return extractedFiles, nil
 }
